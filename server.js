@@ -22,7 +22,7 @@ const configuredClientOrigins = (process.env.CLIENT_URL || '')
     .filter(Boolean);
 
 const allowedOrigins = [...new Set([
-    ...configuredClientOrigins,
+    process.env.CLIENT_URL,
     "http://localhost:5173",
 ])];
 
