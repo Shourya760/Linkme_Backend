@@ -78,7 +78,13 @@ const profileSchema = new mongoose.Schema(
             maxlength: 100,
             default: "",
         },
-        email: { type: String, trim: true, lowercase: true, maxlength: 254, default: "" },
+        email: {
+            type: String,
+            trim: true,
+            lowercase: true,
+            maxlength: 254,
+            default: ""
+        },
 
         title: {
             type: String,
