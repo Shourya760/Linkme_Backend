@@ -3,7 +3,7 @@ import express from "express";
 import cors from "cors";
 import "./config/env.js";
 import connectDB from "./config/db.js";
-import registerRoutes from "./src/routes/index.js";
+import apiRoutes from "./src/routes/index.js";
 
 const app = express();
 
@@ -22,7 +22,7 @@ const configuredClientOrigins = (process.env.CLIENT_URL || '')
     .filter(Boolean);
 
 const allowedOrigins = [...new Set([
-    process.env.CLIENT_URL,
+    ...configuredClientOrigins,
     "http://localhost:5173",
 ])];
 
@@ -40,8 +40,11 @@ app.get("/api/health", (_req, res) => {
     res.json({ success: true, message: "LinkMe API is running" });
 });
 
-// Register API routes
-registerRoutes(app);
+// Mount feature routes under the shared API prefix.
+app.use("/api", apiRoutes);
+app.use("/api", (_req, res) => {
+    res.status(404).json({ success: false, message: "API route not found" });
+});
 
 const PORT = process.env.PORT || 3000;
 
