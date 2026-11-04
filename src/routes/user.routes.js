@@ -7,10 +7,10 @@ import { uploadSingleImage } from "../middleware/imageUpload.js";
 const router = express.Router();
 
 
-router.post("/auth/register", create_user);
-router.post("/auth/login", login_user);
-router.post("/auth/logout", logout_user);
-router.delete("/auth/account", authenticate, deactivate_user);
-router.post("/uploads/image", authenticate, uploadSingleImage, upload_image);
+router.post("/register", create_user);
+router.post("/login", login_user);
+router.post("/logout", logout_user);
+router.delete("/account", authenticate, deactivate_user);
+router.post("/upload", authenticate, uploadSingleImage, upload_image);
 
 export default router;

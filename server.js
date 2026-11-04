@@ -43,16 +43,15 @@ app.use(
 );
 
 app.get("/", (_req, res) => {
-    res.json({ success: true, message: "LinkMe API is running", health: "/api/health" });
+    res.json({ success: true, message: "LinkMe API is running", health: "/health" });
 });
-app.get("/api/health", (_req, res) => {
+app.get("/health", (_req, res) => {
     res.json({ success: true, message: "LinkMe API is running" });
 });
 
-// Mount feature routes under the shared API prefix.
-app.use("/api", apiRoutes);
-app.use("/api", (_req, res) => {
-    res.status(404).json({ success: false, message: "API route not found" });
+app.use(apiRoutes);
+app.use((_req, res) => {
+    res.status(404).json({ success: false, message: "Route not found" });
 });
 
 const PORT = process.env.PORT || 3000;

@@ -5,8 +5,8 @@ import { get_my_profile, get_public_profile, update_my_profile } from "../contro
 
 
 const router = express.Router();
-router.get("/profiles/me", authenticate, get_my_profile);
-router.patch("/profiles/me", authenticate, update_my_profile);
-router.get("/profiles/:username", get_public_profile);
+router.get("/me", authenticate, get_my_profile);
+router.patch("/me", authenticate, update_my_profile);
+router.get("/public/:username", get_public_profile);
 
 export default router;
