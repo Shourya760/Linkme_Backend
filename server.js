@@ -10,26 +10,35 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: "1mb" }));
 
-const configuredClientOrigins = (process.env.CLIENT_URL || '')
-    .split(',')
-    .map((value) => {
-        try {
-            return new URL(value.trim()).origin;
-        } catch {
-            return null;
-        }
-    })
-    .filter(Boolean);
-
-const allowedOrigins = [...new Set([
-    ...configuredClientOrigins,
+const allowedOrigins = [
     "http://localhost:5173",
-])];
+    "http://localhost:4173",
+    "https://linkmeon.netlify.app",
+    ...(process.env.CLIENT_URL || "")
+        .split(",")
+        .map((value) => {
+            try {
+                return new URL(value.trim()).origin;
+            } catch {
+                return null;
+            }
+        })
+        .filter(Boolean),
+];
 
 app.use(
     cors({
-        origin: allowedOrigins,
+        origin: (origin, callback) => {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                console.log("Blocked by CORS:", origin);
+                callback(new Error("Not allowed by CORS"));
+            }
+        },
         credentials: true,
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
 
