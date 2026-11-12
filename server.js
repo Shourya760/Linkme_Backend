@@ -12,8 +12,8 @@ app.use(express.json({ limit: "1mb" }));
 
 const allowedOrigins = [
     "http://localhost:5173",
-    "http://localhost:4173",
     "https://linkmeon.netlify.app",
+    "https://linkme-sandy.vercel.app",
     ...(process.env.CLIENT_URL || "")
         .split(",")
         .map((value) => {
